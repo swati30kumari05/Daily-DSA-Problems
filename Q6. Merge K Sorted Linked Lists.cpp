@@ -1,13 +1,33 @@
 class Solution {
 public:
-    int findKthLargest(vector<int>& nums, int k) {
-        priority_queue<int,vector<int>,greater<int>>min_heap;
-        for(int i=0;i<nums.size();++i){
-            min_heap.push(nums[i]);
-            if(min_heap.size()>k){
-                min_heap.pop();
-            }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        
+        priority_queue<
+            ListNode*,
+            vector<ListNode*>,
+            function<bool(ListNode*, ListNode*)>
+        > pq([](ListNode* a, ListNode* b){
+            return a->val > b->val;
+        });
+        for(auto node : lists){
+            if(node != NULL)
+                pq.push(node);
         }
-        return min_heap.top();
+
+        ListNode* dummy = new ListNode(0);
+        ListNode* tail = dummy;
+
+        while(!pq.empty()){
+            ListNode* smallest = pq.top();
+            pq.pop();
+
+            tail->next = smallest;
+            tail = tail->next;
+
+            if(smallest->next != NULL)
+                pq.push(smallest->next);
+        }
+
+        return dummy->next;
     }
 };

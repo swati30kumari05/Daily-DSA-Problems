@@ -1,0 +1,11 @@
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* r,TreeNode* p,TreeNode* q){
+        while(r){
+            if(p->val<r->val&&q->val<r->val) r=r->left;
+            else if(p->val>r->val&&q->val>r->val) r=r->right;
+            else return r;
+        }
+        return 0;
+    }
+};
